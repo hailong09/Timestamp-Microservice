@@ -23,7 +23,7 @@ app.get("/", function (req, res) {
 app.get("/api", function (req, res) {
 	res.json({
 		unix: moment().valueOf(),
-		utc: moment().format("ddd, DD MMM YYYY HH:mm:ss Z"),
+		utc: `${moment().format("ddd, DD MMM YYYY HH:mm:ss")} GMT`,
 	});
 });
 app.get("/api/hello", function (req, res) {
@@ -35,15 +35,15 @@ app.get("/api/:date", function (req, res) {
 
 	if (moment(date, "YYYY-MM-DD", true).isValid()) {
 		const unix = moment(date, "YYYY-MM-DD", true).valueOf();
-		const utc = moment(date).format("ddd, DD MMM YYYY HH:mm:ss Z");
+		const utc = moment(date).format("ddd, DD MMM YYYY HH:mm:ss");
 
-		res.json({ unix, utc: `${utc}` });
+		res.json({ unix, utc: `${utc} GMT`});
 	} else if (Number(date)) {
 		res.json({
 			unix: Number(date),
 			utc: `${moment
 				.unix(Number(date))
-				.format("ddd, DD MMM YYYY HH:mm:ss Z")}`,
+				.format("ddd, DD MMM YYYY HH:mm:ss")} GMT`,
 		});
 	} else {
 		res.json({ error: "Invalid Date" });
